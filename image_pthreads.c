@@ -20,7 +20,7 @@ Matrix algorithms[] = {
     {{0,0,0},{0,1,0},{0,0,0}}                        
 };
 
-static inline uint8_t compute_pixel(const Image* src, int x, int y, int bit, const Matrix alg){
+static inline uint8_t compute_pixel(const Image* src, int x, int y, int bit, Matrix alg){
     int px=x+1, mx=x-1, py=y+1, my=y-1;
     if (mx<0) mx=0;
     if (my<0) my=0;
