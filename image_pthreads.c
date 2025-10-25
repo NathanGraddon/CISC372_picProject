@@ -20,7 +20,7 @@ Matrix algorithms[] = {
     {{0,0,0},{0,1,0},{0,0,0}}                        
 };
 
-static inline uint8_t getPixelValue(const Image* src, int x, int y, int bit, const Matrix alg){
+static inline uint8_t compute_pixel(const Image* src, int x, int y, int bit, const Matrix alg){
     int px=x+1, mx=x-1, py=y+1, my=y-1;
     if (mx<0) mx=0;
     if (my<0) my=0;
@@ -59,20 +59,20 @@ static void* worker(void* arg){
         for (int pix=0; pix<src->width; ++pix){
             for (int bit=0; bit<src->bpp; ++bit){
                 dest->data[Index(pix,row,src->width,bit,src->bpp)] =
-                    getPixelValue(src,pix,row,bit,a->alg);
+                    compute_pixel(src,pix,row,bit,a->alg);
             }
         }
     }
     return NULL;
 }
 
-static int Usage(){
+int Usage(){
     printf("Usage: image_pthreads <filename> <type> [threads]\n"
            "\twhere type is one of (edge,sharpen,blur,gauss,emboss,identity)\n");
     return -1;
 }
 
-static enum KernelTypes GetKernelType(char* type){
+enum KernelTypes GetKernelType(char* type){
     if (!strcmp(type,"edge")) return EDGE;
     else if (!strcmp(type,"sharpen")) return SHARPEN;
     else if (!strcmp(type,"blur")) return BLUR;

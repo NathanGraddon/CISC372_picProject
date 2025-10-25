@@ -1,33 +1,33 @@
-#config
-CC      := gcc
-CFLAGS  := -O2 -g -Wall -Wextra
-#if grader/toolchain requires -lthread, build with:
-#   make THREADLIB=-lthread
+#Config
+CC       := gcc
+CFLAGS   := -O2 -g -Wall -Wextra -std=gnu99
+LDFLAGS  := -lm
+#Prefer -pthread; if Darwin insists on -lthread, run:
+#    make THREADLIB=-lthread image_pthreads
 THREADLIB ?= -pthread
 
-#default target
+#Default
 .PHONY: all
 all: image image_pthreads image_omp
 
-#sequential(original)
-#Builds the starter single-threaded program from image.c
+#Sequential (starter)
 image: image.c image.h stb_image.h stb_image_write.h
-	$(CC) $(CFLAGS) -o $@ image.c -lm
+	$(CC) $(CFLAGS) -o $@ image.c $(LDFLAGS)
 
-#pthreads version
+#Pthreads version
 image_pthreads: image_pthreads.c image.h stb_image.h stb_image_write.h
-	$(CC) $(CFLAGS) $(THREADLIB) -o $@ image_pthreads.c -lm
+	$(CC) $(CFLAGS) $(THREADLIB) -o $@ image_pthreads.c $(LDFLAGS)
 
 #OpenMP version
 image_omp: image_omp.c image.h stb_image.h stb_image_write.h
-	$(CC) $(CFLAGS) -fopenmp -o $@ image_omp.c -lm
+	$(CC) $(CFLAGS) -fopenmp -o $@ image_omp.c $(LDFLAGS)
 
-#utilities
+#Helpers
 .PHONY: clean run-seq run-pth run-omp
 clean:
 	rm -f image image_pthreads image_omp output.png
 
-#quick helpers for local testing
+#Quick local smoke tests 
 run-seq: image
 	./image pic1.jpg edge
 
