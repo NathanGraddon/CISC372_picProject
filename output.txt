@@ -1,0 +1,14 @@
+Script started on Sat Oct 25 16:21:47 2025
+]0;ngraddon@r1n12.darwin:~/CISC372_picProject[?1034h[ngraddon@r1n12 CISC372_picProject]$ ./image_pthreads pic1.jpg edge 4
+pthread version took 2 seconds with 4 threads
+]0;ngraddon@r1n12.darwin:~/CISC372_picProject[ngraddon@r1n12 CISC372_picProject]$ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+]0;ngraddon@r1n12.darwin:~/CISC372_picProject[ngraddon@r1n12 CISC372_picProject]$ srun ./image_omp pic1.jpg edge
+OpenMP version took 3 seconds (threads=4)
+]0;ngraddon@r1n12.darwin:~/CISC372_picProject[ngraddon@r1n12 CISC372_picProject]$ ./image pic1.jpg edge
+Took 3 seconds
+]0;ngraddon@r1n12.darwin:~/CISC372_picProject[ngraddon@r1n12 CISC372_picProject]$ ls -l output.png
+-rw-r--r-- 1 ngraddon ea-cisc372-silber 29227245 Oct 25 16:22 output.png
+]0;ngraddon@r1n12.darwin:~/CISC372_picProject[ngraddon@r1n12 CISC372_picProject]$ exit
+exit
+
+Script done on Sat Oct 25 16:22:52 2025
