@@ -20,7 +20,7 @@ Matrix algorithms[] = {
     {{0,0,0},{0,1,0},{0,0,0}}
 };
 
-static inline uint8_t getPixelValue(const Image* src, int x, int y, int bit, const Matrix alg){
+static inline uint8_t compute_pixel(const Image* src, int x, int y, int bit, const Matrix alg){
     int px=x+1, mx=x-1, py=y+1, my=y-1;
     if (mx<0) mx=0;
     if (my<0) my=0;
@@ -43,13 +43,13 @@ static inline uint8_t getPixelValue(const Image* src, int x, int y, int bit, con
     return (uint8_t)(v + 0.5);
 }
 
-static int Usage(){
+int Usage(){
     printf("Usage: image_omp <filename> <type>\n"
            "\twhere type is one of (edge,sharpen,blur,gauss,emboss,identity)\n");
     return -1;
 }
 
-static enum KernelTypes GetKernelType(char* type){
+enum KernelTypes GetKernelType(char* type){
     if (!strcmp(type,"edge")) return EDGE;
     else if (!strcmp(type,"sharpen")) return SHARPEN;
     else if (!strcmp(type,"blur")) return BLUR;
@@ -82,7 +82,7 @@ int main(int argc, char** argv){
         for (int pix=0; pix<src.width; ++pix){
             for (int bit=0; bit<src.bpp; ++bit){
                 dst.data[Index(pix,row,src.width,bit,src.bpp)] =
-                    getPixelValue(&src,pix,row,bit,alg);
+                    compute_pixel(&src,pix,row,bit,alg);
             }
         }
     }
